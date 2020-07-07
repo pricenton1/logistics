@@ -43,23 +43,22 @@ func (w *WarehouseRepoImpl) Add(warehouses []*models.Warehouse) ([]*models.Wareh
 		if err != nil {
 			return nil, err
 		}
-		_, err = tx.Exec("INSERT INTO warehouse VALUES (?,?,?,?,?)", &warehouse.IdWarehouse, &warehouse.WarehouseName, &warehouse.WarehouseLocation, &warehouse.WarehouseCapacity, &warehouse.WarehouseType.IdType)
+		res, err := tx.Exec("INSERT INTO warehouse VALUES (?,?,?,?,?)", &warehouse.IdWarehouse, &warehouse.WarehouseName, &warehouse.WarehouseLocation, &warehouse.WarehouseCapacity, &warehouse.WarehouseType.IdType, &warehouse.WarehouseType.IdType)
 		if err != nil {
 			tx.Rollback()
 			return nil, err
 		}
-		// id, err := res.LastInsertId()
-		// if err != nil {
-		// 	tx.Rollback()
-		// 	return nil, err
-		// }
+		id, err := res.LastInsertId()
+		if err != nil {
+			tx.Rollback()
+			return nil, err
+		}
+		_, err = tx.Exec("INSERT INTO warehouse VALUES (?,?)", id, &warehouse.WarehouseType.TypeWarehouse)
 
-		// _, err = tx.Exec("INSERT INTO warehouse VALUES ()")
-
-		// if err != nil {
-		// 	tx.Rollback()
-		// 	return nil, err
-		// }
+		if err != nil {
+			tx.Rollback()
+			return nil, err
+		}
 		return nil, tx.Commit()
 	}
 
