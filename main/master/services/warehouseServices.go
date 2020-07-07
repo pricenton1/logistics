@@ -17,13 +17,12 @@ type WarehouseHandler struct {
 func WarehouseServices(r *mux.Router, service usecases.WarehouseUsecase) {
 	WarehouseHandler := WarehouseHandler{service}
 	r.Use(middleware.ActivityLogMiddleware)
-
 	warehouse := r.PathPrefix("/warehouses").Subrouter()
 	warehouse.HandleFunc("", WarehouseHandler.ListAllWarehouse).Methods(http.MethodGet)
 	warehouse.HandleFunc("/{id}", WarehouseHandler.WarehouseId).Methods(http.MethodGet)
 	warehouse.HandleFunc("/add", WarehouseHandler.addWarehouse).Methods(http.MethodPost)
-	warehouse.HandleFunc("/update{id}", WarehouseHandler.updateWarehouse).Methods(http.MethodPut)
-	warehouse.HandleFunc("/delete{id}", WarehouseHandler.deleteWarehouse).Methods(http.MethodDelete)
+	warehouse.HandleFunc("/update/{id}", WarehouseHandler.updateWarehouse).Methods(http.MethodPut)
+	warehouse.HandleFunc("/delete/{id}", WarehouseHandler.deleteWarehouse).Methods(http.MethodDelete)
 }
 func (wh *WarehouseHandler) ListAllWarehouse(w http.ResponseWriter, r *http.Request) {
 	warehouses, err := wh.warehouseUsecase.GetAll()

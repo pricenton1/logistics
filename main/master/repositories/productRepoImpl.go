@@ -70,7 +70,7 @@ func (p *ProductRepoImpl) Delete(id string) error {
 	if err != nil {
 		return err
 	}
-	_, err = tx.Exec("DELETE FROM product", id)
+	_, err = tx.Exec("DELETE FROM product WHERE id_product=?", id)
 	if err != nil {
 		tx.Rollback()
 		return err

@@ -43,7 +43,7 @@ func (w *WarehouseRepoImpl) Add(warehouses []*models.Warehouse) ([]*models.Wareh
 		if err != nil {
 			return nil, err
 		}
-		res, err := tx.Exec("INSERT INTO warehouse VALUES (?,?,?,?,?)", &warehouse.IdWarehouse, &warehouse.WarehouseName, &warehouse.WarehouseLocation, &warehouse.WarehouseCapacity, &warehouse.WarehouseType.IdType, &warehouse.WarehouseType.IdType)
+		res, err := tx.Exec("INSERT INTO warehouse VALUES (?,?,?,?,?)", &warehouse.IdWarehouse, &warehouse.WarehouseName, &warehouse.WarehouseLocation, &warehouse.WarehouseCapacity, &warehouse.WarehouseType.IdType)
 		if err != nil {
 			tx.Rollback()
 			return nil, err
@@ -53,7 +53,7 @@ func (w *WarehouseRepoImpl) Add(warehouses []*models.Warehouse) ([]*models.Wareh
 			tx.Rollback()
 			return nil, err
 		}
-		_, err = tx.Exec("INSERT INTO warehouse VALUES (?,?)", id, &warehouse.WarehouseType.TypeWarehouse)
+		_, err = tx.Exec("INSERT INTO warehouse_type VALUES (?,?)", id, &warehouse.WarehouseType.TypeWarehouse)
 
 		if err != nil {
 			tx.Rollback()
@@ -69,7 +69,7 @@ func (w *WarehouseRepoImpl) Delete(id string) error {
 	if err != nil {
 		return err
 	}
-	_, err = tx.Exec("DELETE FROM warehouse", id)
+	_, err = tx.Exec("DELETE FROM warehouse WHERE id_warehouse=?", id)
 	if err != nil {
 		tx.Rollback()
 		return err

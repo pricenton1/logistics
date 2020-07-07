@@ -22,8 +22,8 @@ func ProductServices(r *mux.Router, service usecases.ProductUsecase) {
 	product.HandleFunc("", ProductHandler.ListAllProduct).Methods(http.MethodGet)
 	product.HandleFunc("/{id}", ProductHandler.ProductId).Methods(http.MethodGet)
 	product.HandleFunc("/add", ProductHandler.addProduct).Methods(http.MethodPost)
-	product.HandleFunc("/update{id}", ProductHandler.updateProduct).Methods(http.MethodPut)
-	product.HandleFunc("/delete{id}", ProductHandler.deleteProduct).Methods(http.MethodDelete)
+	product.HandleFunc("/update/{id}", ProductHandler.updateProduct).Methods(http.MethodPut)
+	product.HandleFunc("/delete/{id}", ProductHandler.deleteProduct).Methods(http.MethodDelete)
 }
 func (p *ProductHandler) ListAllProduct(w http.ResponseWriter, r *http.Request) {
 	products, err := p.productUsecase.GetAll()
