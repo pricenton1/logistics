@@ -15,4 +15,9 @@ func Init(r *mux.Router, db *sql.DB) {
 	productUsecase := usecases.InitProductUsecaseImpl(productRepo)
 	services.ProductServices(r, productUsecase)
 
+	// warehouse init
+	warehouseRepo := repositories.InitWarehouseRepoImpl(db)
+	warehouseUsecase := usecases.InitWarehouseUsecaseImpl(warehouseRepo)
+	services.WarehouseServices(r, warehouseUsecase)
+
 }
